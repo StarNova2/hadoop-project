@@ -1,19 +1,19 @@
 # Machin learning
 
-But : proposer un modèle qui défini notre santé mental selon nos habitude (selon notre CSV)
+But : proposer un modèle qui défini notre santé mentale selon nos habitudes (d'après les données recueillies)
 proposition : 
-- Clustering K-Means pour déduire certain penchant
-- MLP pour voir les différénces de résultats 
+- Clustering K-Means pour déduire certains penchants
+- MLP pour voir les différences de résultat
 
 
 # 1. Transformation
-Le but ici est de transformer certainnes données pour qu'elle puisse correspondre à la logique du clustering (seulement des nombres)
+Le but ici est de transformer certaines données pour qu'elles puissent correspondre à la logique du clustering (seulement des nombres)
 Donc par exemple : 
-- on devra rempalcer les genres des nombres (Homme = -1, Autre = 0, Femme = -1)
-- on devra remplacer les valeur "grandissante" par une suite de nombre (Insomnia = -1, Very Poor = -0.5, Poor = 0, Fair = 0.5, Good = 1)
+- rempalcer les genres des nombres (Homme = 1, Autre = 0, Femme = -1)
+- remplacer les valeurs "grandissantes" par une suite de nombre (Insomnia = -1, Very Poor = -0.5, Poor = 0, Fair = 0.5, Good = 1)
 
 Après réflexion : 
-Le clustering K-Means se base sur la distance entre les données. Donc il faudrais trouver une logique entre les différents données.
+Le clustering K-Means se base sur la distance entre les données. Il faudra donc trouver une logique entre les différentes données.
 Dans un premier temps, je préfère ne pas trop toucher au données déjà en nombre, même si dans l'idée, je voudrais transformer les données pour dire : plus elle est dans le négative, moins c'est bien, plus elle est dans le positif, mieux c'est 
 
 Pour transformer le reste des données string en valeur numérique, il faut d'abord réfléchir sur comment pourrais l'interpréter le modèle. Car en théorie, ce n'est pas parce que un homme = -1 qu'il est plus négative qu'une femme à 1.
