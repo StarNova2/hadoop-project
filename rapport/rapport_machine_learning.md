@@ -1,4 +1,4 @@
-# Machin learning
+# Machine learning
 
 But : proposer un modèle qui défini notre santé mentale selon nos habitudes (d'après les données recueillies)
 proposition : 
