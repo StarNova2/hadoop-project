@@ -1,62 +1,65 @@
 import os
 import matplotlib.pyplot as plt
-from pyspark.sql import SparkSession
 import seaborn as sns
+from pyspark.sql import SparkSession
 
 os.environ['HADOOP_CONF_DIR'] = '/usr/local/hadoop/etc/hadoop'
 
-def init_spark_and_plot():
-    spark = SparkSession.builder \
-        .appName("ESGI_Hadoop_Project_Parsing") \
-        .master("local[*]") \
-        .config("spark.sql.warehouse.dir", "hdfs://localhost:9000/user/hive/warehouse") \
-        .getOrCreate()
-    
-    spark.sparkContext.setLogLevel("WARN")
+spark = SparkSession.builder \
+    .appName("ESGI_Hadoop_Project_Parsing") \
+    .master("local[*]") \
+    .config("spark.sql.warehouse.dir", "hdfs://localhost:9000/user/hive/warehouse") \
+    .getOrCreate()
 
-    try:
-        df_spark = spark.read.csv("/home/letort/datasets/gaming_mental_health/part-00000-c5eca9e6-5393-4d27-bb31-0d72a0573949-c000.csv", header=True, inferSchema=True)
-        df = df_spark.toPandas()
+spark.sparkContext.setLogLevel("WARN")
 
-        def show_fig(title):
-            plt.title(title)
-            plt.tight_layout()
-            plt.show()
+csv_path = "/home/letort/datasets/gaming_mental_health/part-00000-c5eca9e6-5393-4d27-bb31-0d72a0573949-c000.csv"
+df_spark = spark.read.csv(csv_path, header=True, inferSchema=True)
+df = df_spark.toPandas()
 
-        plt.figure()
-        df['gender'].value_counts().plot.pie(autopct="%1.1f%%")
-        plt.ylabel("")
-        show_fig("Répartition par Genre")
+plt.figure()
+df['gender'].value_counts().plot.pie(autopct="%1.1f%%")
+plt.ylabel("")
+plt.title("Répartition par Genre")
+plt.tight_layout()
+plt.show()
 
-        plt.figure()
-        sns.histplot(data=df, x="age", kde=True, bins=15)
-        show_fig("Distribution des Âges")
+plt.figure()
+sns.histplot(data=df, x="age", kde=True, bins=15)
+plt.title("Distribution des Âges")
+plt.tight_layout()
+plt.show()
 
-        plt.figure()
-        sns.barplot(data=df, x="sleep_quality", y="daily_gaming_hours", errorbar=None)
-        show_fig("Moyenne des heures de jeu par qualité de sommeil")
+plt.figure()
+sns.barplot(data=df, x="sleep_quality", y="daily_gaming_hours", errorbar=None)
+plt.title("Moyenne des heures de jeu par qualité de sommeil")
+plt.tight_layout()
+plt.show()
 
-        plt.figure()
-        sns.boxplot(data=df, x="daily_gaming_hours", y="sleep_quality")
-        show_fig("Impact des heures de jeu sur la qualité du sommeil")
+plt.figure()
+sns.boxplot(data=df, x="daily_gaming_hours", y="sleep_quality")
+plt.title("Impact des heures de jeu sur la qualité du sommeil")
+plt.tight_layout()
+plt.show()
 
-        plt.figure()
-        sns.scatterplot(data=df, x="daily_gaming_hours", y="sleep_hours")
-        show_fig("Relation heures de jeu et temps de sommeil")
+plt.figure()
+sns.scatterplot(data=df, x="daily_gaming_hours", y="sleep_hours")
+plt.title("Relation heures de jeu et temps de sommeil")
+plt.tight_layout()
+plt.show()
 
-        plt.figure()
-        sns.histplot(data=df, x="monthly_game_spending_usd", kde=True)
-        show_fig("Distribution des dépenses mensuelles ($)")
+plt.figure()
+sns.histplot(data=df, x="monthly_game_spending_usd", kde=True)
+plt.title("Distribution des dépenses mensuelles ($)")
+plt.tight_layout()
+plt.show()
 
-        plt.figure()
-        df['gaming_addiction_risk_level'].value_counts().plot.pie(autopct="%1.1f%%")
-        plt.ylabel("")
-        show_fig("Niveau de risque d'addiction")
+plt.figure()
+df['gaming_addiction_risk_level'].value_counts().plot.pie(autopct="%1.1f%%")
+plt.ylabel("")
+plt.title("Niveau de risque d'addiction")
+plt.tight_layout()
+plt.show()
 
-        print("🎉 Tous les graphiques ont été affichés !")
-
-    finally:
-        spark.stop()
-
-if __name__ == "__main__":
-    init_spark_and_plot()
+spark.stop()
+print("Affichage des graphiques terminé.")
