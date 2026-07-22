@@ -23,10 +23,9 @@ def init_spark_and_plot():
             plt.tight_layout()
             plt.show()
 
-        # Graphiques
         plt.figure()
         df['gender'].value_counts().plot.pie(autopct="%1.1f%%")
-        plt.ylabel("") # Masque le libellé de l'axe Y pour clarifier le camembert
+        plt.ylabel("")
         show_fig("Répartition par Genre")
 
         plt.figure()
